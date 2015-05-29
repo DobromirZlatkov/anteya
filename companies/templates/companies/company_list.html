@@ -6,22 +6,42 @@
 {% block title %}{{ block.super }}About{% endblock %}
 
 {% block navbar-left %}
-  {% include "_navbar.html" with active_link="company" user=user%}
+{% include "_navbar.html" with active_link="company" user=user%}
 {% endblock %}
 
 {% block second-navbar %}
-	 {% include "_company_nav.html" with active_link="all_user_companies" user=user %}
+{% include "_company_nav.html" with active_link="all_user_companies" user=user %}
 {% endblock %}
 
 <!-- Benefits of the Django application -->
 {% block container %}
-	 <h2>Вашите фирми</h2>
-   	 	<ul>
-        {% for company in object_list %}
-            <li>{{ company.company_name }}</li>
-        {% endfor %}
-    	</ul>
+<h2>Вашите фирми</h2>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Име на компанията</th>
+				<th>Град</th>
+				<th>Адрес</th>
+				<th>Детаили</th>
+				<th>Фактури</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for company in object_list %}
+            <tr>
+            	<td>{{ company.company_name }}</td>
+            	<td>{{ company.town }}</td>
+            	<td>{{ company.address }}</td>
+            	<td><a href="{% url 'company_update' user.id company.id %}" class="btn btn-info">Детаил</a></td>
+				<td><a href="{% url 'company_delete' user.id company.id %}" class="btn btn-danger">Фактури</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock container %}
 
 {% block scripts %}
 {% endblock scripts %}
+

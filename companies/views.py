@@ -34,23 +34,34 @@ class CompanyList(mixins.LoginRequiredMixin, generic.ListView):
 class CompanyCreate(mixins.LoginRequiredMixin, generic.edit.CreateView):
     model = models.Company
     valid_message = "Successfully created object."
-    fields = ['company_name']
 
-    success_url = reverse_lazy('companies', kwargs={'id': 1})
+    # success_url = reverse_lazy('companies', kwargs={'id': request.user.id})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(CompanyCreate, self).form_valid(form)
-        # def get_initial(self):
-    #     initial = super(CompanyCreate, self).get_initial()
-    #     initial.update({
-    #         "user": self.request.user
-    #     })
-    #     return initial
-    # company_form_class = forms.CompanyForm
-    # template_name = "companies/create_company.html"
-    # success_url = reverse_lazy("home")
 
-    # def get(self, request, *args, **kwargs):
-    #     kwargs["company_form"] = self.company_form_class()
-    #     return super(CompanyList, self).get(request, *args, **kwargs)
+    def get_form_class(self):
+        return forms.CompanyForm
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('companies', kwargs={'id': self.request.user.id})
+
+
+class CompanyEdit(generic.edit.UpdateView):
+    model = models.Company
+    template_name_suffix = '_update'
+
+    def get_form_class(self):
+        return forms.CompanyForm
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('companies', kwargs={'id': self.request.user.id})
+
+
+class CompanyDelete(generic.edit.DeleteView):
+    model = models.Company
+    template_name_suffix = '_delete'
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('companies', kwargs={'id': self.request.user.id})

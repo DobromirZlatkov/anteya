@@ -3,3 +3,4 @@
 {% if user.is_authenticated %}
 <li {% if active_link == "company" %}class="active"{% endif %}><a href="{% url 'companies' user.id %}">Моите фирми</a></li>
 {% endif %}
+

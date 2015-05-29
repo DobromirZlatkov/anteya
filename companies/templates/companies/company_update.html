@@ -3,14 +3,14 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block title %}{{ block.super }}Company details{% endblock %}
+{% block title %}{{ block.super }}About{% endblock %}
 
 {% block navbar-left %}
 {% include "_navbar.html" with active_link="company" user=user%}
 {% endblock %}
 
 {% block second-navbar %}
-{% include "_company_nav.html" with active_link="add_company" user=user %}
+{% include "_company_nav.html" with active_link="details_view" user=user %}
 {% endblock %}
 
 
@@ -23,7 +23,8 @@
 				<p> {{ field.errors }}</p>
 				<p>{{ field }}</p>
 			{% endfor %}
-			<input type="submit" value="Create" class="btn btn-success"/>
+			<input type="submit" value="Update" class="btn btn-info"/>
+			<a href="{% url 'company_delete' user.id company.id %}" class="btn btn-danger">Изтрии</a>
 		</form>
 	</div>
 </div>
