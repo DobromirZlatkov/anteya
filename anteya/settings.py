@@ -44,9 +44,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    'rolepermissions',
     'crispy_forms',
+
+    'custommixins',
     'accounts',
-    'product',
+    'companies',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,6 +74,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'anteya.urls'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap'
+
+ROLEPERMISSIONS_MODULE = 'anteya.roles'
 
 # TEMPLATES = [
 #     {

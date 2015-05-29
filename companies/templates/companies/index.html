@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}About{% endblock %}
+
+{% block navbar-left %}
+  {% include "_navbar.html" with active_link="company" user=user%}
+{% endblock %}
+
+{% block second-navbar %}
+	 {% include "_company_nav.html" with active_link="all_user_companies" user=user %}
+{% endblock %}
+
+<!-- Benefits of the Django application -->
+{% block container %}
+
+
+{% endblock container %}
+
+{% block scripts %}
+{% endblock scripts %}

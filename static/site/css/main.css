@@ -40,7 +40,9 @@ body {
 .corporate-jumbo .well {
     background-color: rgba(245, 245, 245, .7);
 }
-
+.well{
+  height: 300px;
+}
 .corporate-jumbo p, .corporate-jumbo h1 {
     color: #eee;
     text-shadow: 0px 0px 2px black;

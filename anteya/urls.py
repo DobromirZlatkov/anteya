@@ -1,15 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from accounts.views import SignInAndSignUp, LogoutView, AboutView
+from accounts import urls as accounts_urls
+from companies import urls as companies_urls
 
 urlpatterns = patterns(
     '',
-    url(r'^$', SignInAndSignUp.as_view(),
-        name='home'),
-    url(r'^about/$', AboutView.as_view(),
-        name='about'),
-    url(r'^accounts/logout$', LogoutView.as_view(),
-        name='logout'),
+
+    url(r'^', include(accounts_urls)),
+
+    url(r'^user/(?P<id>\d+)/', include(companies_urls)),
 
     url(r'^admin/', include(admin.site.urls)),
 )
