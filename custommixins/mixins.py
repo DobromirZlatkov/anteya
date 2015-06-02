@@ -12,4 +12,4 @@ class AdminRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             raise PermissionDenied
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(AdminRequiredMixin, self).dispatch(request, *args, **kwargs)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from decimal import Decimal
 
 
 # Create your models here.
@@ -12,9 +13,9 @@ class Product(models.Model):
     sizeY = models.DecimalField(max_digits=5, decimal_places=2)
     sizeZ = models.DecimalField(max_digits=5, decimal_places=2)
     STATUS_CHOICES = (
-        (0.34, '0.34'),
-        (0.44, '0.44'),
-        (0.32, '0.32'),
+        (Decimal(0.34), '0.34'),
+        (Decimal(0.44), '0.44'),
+        (Decimal(0.32), '0.32'),
     )
     price_for_one = models.DecimalField(max_digits=10, decimal_places=2, choices=STATUS_CHOICES)
     quantity = models.IntegerField()
@@ -29,4 +30,8 @@ class Product(models.Model):
     )
 
     def __unicode__(self):
-        return self.camp.name + ' ' + self.abrasive.name + ' ' + self.color.name + ' ' + self.sizeX + 'x' + self.sizeY + 'x' + self.sizeZ + " " + self.color.name
+        return self.camp.name + ' ' + self.abrasive.name + ' ' + str(self.sizeX) + 'x' + str(self.sizeY) + 'x' + str(self.sizeZ) + " " + self.color.name
+
+    @property
+    def total_amount(self):
+        return self.price_for_one * self.quantity

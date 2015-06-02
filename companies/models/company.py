@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -14,3 +15,6 @@ class Company(models.Model):
     bank_name = models.CharField(max_length=200, blank=True, null=True, default=None)
     bank_iban = models.CharField(max_length=200, blank=True, null=True, default=None)
     bank_bic = models.CharField(max_length=200, blank=True, null=True, default=None)
+
+    def __unicode__(self):
+        return self.company_name + ' | ' + self.town

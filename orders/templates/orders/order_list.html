@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ block.super }}About{% endblock %}
+
+
+{% block navbar-left %}
+{% include "_navbar.html" with active_link="company" user=user%}
+{% endblock %}
+
+
+<!-- Benefits of the Django application -->
+{% block container %}
+<h2>Вашите фирми</h2>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Име на компанията</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in object_list %}
+            <tr>
+            	<td><a href="{% url 'order_details' order.id %}">{{ order.company }}</a></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock container %}
+
+{% block scripts %}
+{% endblock scripts %}
+

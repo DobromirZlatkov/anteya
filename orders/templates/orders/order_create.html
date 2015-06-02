@@ -9,28 +9,41 @@
 {% include "_navbar.html" with active_link="company" user=user%}
 {% endblock %}
 
-{% block second-navbar %}
-{% include "_company_nav.html" with active_link="add_company" user=user %}
-{% endblock %}
+
 
 
 <!-- Benefits of the Django application -->
 {% block container %}
 
-<form method="post">{% csrf_token %}
-	{{ formset.management_form }}
-	<div style="display:none;" id="form_template">
-		<div class='row'>
-			{% for field in formset.empty_form %}
-			<div class="col-sm-1"><b>{{field.label}} : </b> {{ field }}</div>
-			{% endfor %}
-			<hr style="border:2px solid black">
-		</div>
+<div style="display:none;" id="form_template">
+	<div class='row'>
+		{% for field in formset.empty_form %}
+		<div class="col-sm-1"><i class='alert-danger'>{{ field.errors }}</i> <b>{{ field.label }} : </b> {{ field }}</div>
+		{% endfor %}
+		<hr style="border:2px solid black">
 	</div>
-	<div id="forms"></div>
+</div>
 
+<form method="post" >{% csrf_token %}
+	<div id='order-form-container'>
+		{{ order_form }}
+	</div>
+
+	<div id='form-container'>
+		{% for form in formset %}
+		<div class="form_template">
+			<div class='row'>
+				{% for field in form %}
+				<div class="col-sm-1"><i class='alert-danger'>{{ field.errors }}</i> <b>{{ field.label }} : </b> {{ field }}</div>
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{{ formset.management_form }}
 	<input type="submit" value="Create" class="btn btn-info"/>
 </form>
+
 <input type="text" name="quantity" value="1" />
 <input type="submit" id="generate_forms" value="Generate Forms" />
 
@@ -43,15 +56,13 @@
         // You would probably run this at page load or quantity change.
         $("#generate_forms").click(function() {
             // update total form count
-            quantity = $("[name=quantity]").val();
-            $("[name=form-TOTAL_FORMS]").val(quantity);
-
+			 var form_idx = $('#id_formset-TOTAL_FORMS').val();
+			 console.log(form_idx);
             // copy the template and replace prefixes with the correct index
-            for (i=0; i < quantity; i++) {
                 // Note: Must use global replace here
-                html = $("#form_template").clone().html().replace(/__prefix_/g, i);
-                $("#forms").append(html);
-            }
+            html = $("#form_template").html().replace(/__prefix__/g, form_idx);
+            $("#form-container").append(html);
+            $('#id_formset-TOTAL_FORMS').val(parseInt(form_idx) + 1);
         });
     });
 </script>

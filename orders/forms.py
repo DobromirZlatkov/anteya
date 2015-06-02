@@ -1,14 +1,26 @@
 # -*- coding: utf-8 -*-
 from django import forms
 
-from django.forms.formsets import formset_factory
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
-
-from decimal import Decimal
+from django.forms.formsets import formset_factory, BaseFormSet
 
 from . import models
+
+
+class RequiredFormSet(BaseFormSet):
+    def __init__(self, *args, **kwargs):
+        super(RequiredFormSet, self).__init__(*args, **kwargs)
+        for form in self.forms:
+            form.empty_permitted = False
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = models.Order
+        exclude = ['date']
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['company'].widget.attrs['class'] = 'form-control'
 
 
 class ProductForm(forms.ModelForm):
@@ -17,12 +29,9 @@ class ProductForm(forms.ModelForm):
         exclude = ['order']
 
     def __init__(self, *args, **kwargs):
-        if 'instance' in kwargs:
-            kwargs['instance'].price_retail = kwargs['instance'].sizeX.quantize(Decimal('0.01'))
         super(ProductForm, self).__init__(*args, **kwargs)
         self.fields['sizeX'].widget.attrs['class'] = 'form-control'
         self.fields['sizeX'].decimal_places = 2
-        self.fields['sizeX'].min_value = 0
         self.fields['sizeY'].widget.attrs['class'] = 'form-control'
         self.fields['sizeY'].decimal_places = 2
         self.fields['sizeZ'].widget.attrs['class'] = 'form-control'
@@ -34,5 +43,5 @@ class ProductForm(forms.ModelForm):
         self.fields['quantity'].widget.attrs['class'] = 'form-control'
         self.fields['action'].widget.attrs['class'] = 'form-control'
 
-ProductFormSet = formset_factory(ProductForm)
+ProductFormSet = formset_factory(ProductForm, formset=RequiredFormSet)
 
