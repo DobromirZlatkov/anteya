@@ -1,0 +1,11 @@
+
+{% if user.is_staff %}
+    <ul class="nav nav-tabs">
+        <li class="presentation{% if active_link == 'all_orders' %} active{% endif %}">
+            <a href="{% url 'orders_list' %}" class="nav-item-link sub-link">Всички Поръчки</a>
+        </li>
+        <li class="presentation{% if active_link == 'order_create' %} active{% endif %}">
+            <a href="{% url 'order_create' %}" class="nav-item-link sub-link">Добави поръчка</a>
+        </li>
+    </ul>
+{% endif %}

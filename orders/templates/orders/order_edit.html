@@ -22,12 +22,12 @@
 		{% for field in formset.empty_form %}
 		<div class="col-sm-1"><i class='alert-danger'>{{ field.errors }}</i> <b>{{ field.label }} : </b> {{ field }}</div>
 		{% endfor %}
-		<span class="delete-row btn btn-danger">Delete</span>
+
 	</div>
 		<hr style="border:2px solid black">
 </div>
 
-<form method="post" id="wrapper">{% csrf_token %}
+<form method="post" >{% csrf_token %}
 	<div id='order-form-container'>
 		{{ order_form }}
 	</div>
@@ -39,14 +39,13 @@
 				{% for field in form %}
 				<div class="col-sm-1"><i class='alert-danger'>{{ field.errors }}</i> <b>{{ field.label }} : </b> {{ field }}</div>
 				{% endfor %}
-				<span class="delete-row btn btn-danger">Delete</span>
 			</div>
 		</div>
 		{% endfor %}
 		<hr style="border:2px solid black">
 	</div>
 	{{ formset.management_form }}
-	<input type="submit" value="Създай" class="btn btn-info"/>
+	<input type="submit" value="Обнови" class="btn btn-info"/>
 	<input type="button" id="generate_forms" value="Добави ред" class='btn btn-warning' />
 </form>
 
@@ -63,16 +62,6 @@
             $("#form-container").append(html);
             $('#id_formset-TOTAL_FORMS').val(parseInt(form_idx) + 1);
         });
-    });
-    $(function(){
-    	$('#wrapper').on('click', '.delete-row', function(){
-			var self = $(this),
-				parentBoxToDelete = self.parent(),
-				form_idx = $('#id_formset-TOTAL_FORMS').val();
-
-			parentBoxToDelete.html('');
-			$('#id_formset-TOTAL_FORMS').val(parseInt(form_idx) - 1);
-    	});
     });
 </script>
 {% endblock scripts %}

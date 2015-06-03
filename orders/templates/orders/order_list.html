@@ -7,25 +7,31 @@
 
 
 {% block navbar-left %}
-{% include "_navbar.html" with active_link="company" user=user%}
+{% include "_navbar.html" with active_link="order" user=user %}
 {% endblock %}
 
+{% block second-navbar %}
+{% include "_order_nav.html" with active_link="all_orders" user=user %}
+{% endblock %}
 
 <!-- Benefits of the Django application -->
 {% block container %}
-<h2>Вашите фирми</h2>
+<h2>Вашите поръчки</h2>
 <div class="table-responsive">
-	<table class="table">
+	<table class="table table-bordered">
 		<thead>
 			<tr>
+				<th>Ид</th>
 				<th>Име на компанията</th>
+				<th>Дата на поръчката</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for order in object_list %}
             <tr>
+            	<td><a href="{% url 'order_details' order.id %}">{{ order.pk }}</a></td>
             	<td><a href="{% url 'order_details' order.id %}">{{ order.company }}</a></td>
-
+				<td><a href="{% url 'order_details' order.id %}">{{ order.date }}</a></td>
             </tr>
             {% endfor %}
         </tbody>

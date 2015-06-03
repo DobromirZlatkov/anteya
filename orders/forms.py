@@ -2,15 +2,12 @@
 from django import forms
 
 from django.forms.formsets import formset_factory, BaseFormSet
+from django.forms.models import modelformset_factory
 
 from . import models
 
 
-class RequiredFormSet(BaseFormSet):
-    def __init__(self, *args, **kwargs):
-        super(RequiredFormSet, self).__init__(*args, **kwargs)
-        for form in self.forms:
-            form.empty_permitted = False
+
 
 
 class OrderForm(forms.ModelForm):
@@ -26,7 +23,7 @@ class OrderForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = models.Product
-        exclude = ['order']
+        exclude = ['order', ]
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -43,5 +40,11 @@ class ProductForm(forms.ModelForm):
         self.fields['quantity'].widget.attrs['class'] = 'form-control'
         self.fields['action'].widget.attrs['class'] = 'form-control'
 
-ProductFormSet = formset_factory(ProductForm, formset=RequiredFormSet)
+RequiredFormSet = modelformset_factory(models.Product, form=ProductForm)
 
+
+class ProductFormSet(RequiredFormSet):
+    def __init__(self, *args, **kwargs):
+        super(ProductFormSet, self).__init__(*args, **kwargs)
+        for form in self.forms:
+            form.empty_permitted = False

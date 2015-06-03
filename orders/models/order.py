@@ -18,3 +18,7 @@ class Order(models.Model):
         for product in self.products.all():
             result += product.total_amount
         return result
+
+    @property
+    def products_as_dict(self):
+        return self.products.values('camp', 'abrasive', 'color', 'sizeX', 'sizeY', 'sizeZ', 'price_for_one', 'quantity', 'action')

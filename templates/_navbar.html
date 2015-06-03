@@ -3,4 +3,6 @@
 {% if user.is_authenticated %}
 <li {% if active_link == "company" %}class="active"{% endif %}><a href="{% url 'companies' user.id %}">Моите фирми</a></li>
 {% endif %}
-
+{% if user.is_staff %}
+<li {% if active_link == "order" %}class="active"{% endif %}><a href="{% url 'orders_list' %}">Поръчки</a></li>
+{% endif %}

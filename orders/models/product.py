@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from decimal import Decimal
-
+TWOPLACES = Decimal(10) ** -2
 
 # Create your models here.
 class Product(models.Model):
@@ -12,11 +12,11 @@ class Product(models.Model):
     sizeX = models.DecimalField(max_digits=5, decimal_places=2)
     sizeY = models.DecimalField(max_digits=5, decimal_places=2)
     sizeZ = models.DecimalField(max_digits=5, decimal_places=2)
-    STATUS_CHOICES = (
-        (Decimal(0.34), '0.34'),
-        (Decimal(0.44), '0.44'),
-        (Decimal(0.32), '0.32'),
-    )
+    STATUS_CHOICES = [
+        [Decimal(0.34).quantize(TWOPLACES), '0.34'],
+        [Decimal(0.44).quantize(TWOPLACES), '0.44'],
+        [Decimal(0.32).quantize(TWOPLACES), '0.32'],
+    ]
     price_for_one = models.DecimalField(max_digits=10, decimal_places=2, choices=STATUS_CHOICES)
     quantity = models.IntegerField()
     TYPES = [
